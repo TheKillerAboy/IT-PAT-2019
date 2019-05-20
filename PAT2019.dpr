@@ -1,8 +1,8 @@
-program AnnekinMeyburgh_PAT2019;
+program PAT2019;
 
 uses
   Forms,
-  mainmenu_u in 'mainmenu_u.pas' {frmmainmenu},
+  mainmenu_u in 'mainmenu_u.pas' {frmMainMenu},
   COMMONS in 'COMMONS.pas';
 
 {$R *.res}
@@ -10,6 +10,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(Tfrmmainmenu, frmmainmenu);
+  Application.CreateForm(TfrmMainMenu, frmMainMenu);
   Application.Run;
 end.

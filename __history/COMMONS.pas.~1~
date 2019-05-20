@@ -1,0 +1,20 @@
+unit COMMONS;
+
+interface
+
+type
+  MArray<T> = class
+  private
+    arr:TArray<T>
+  public
+    constructor Create();
+  end;
+
+implementation
+
+constructor MArray<T>.Create();
+begin
+
+end;
+
+end.

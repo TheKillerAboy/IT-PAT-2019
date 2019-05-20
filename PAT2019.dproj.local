@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2019/05/20 05:05:41.614.pas,E:\Documents\RAD Studio\Projects\Unit1.pas=E:\GitHub\IT-PAT-2019\mainmenu_u.pas</Transaction>
+    <Transaction>2019/05/20 05:05:41.614.dfm,E:\Documents\RAD Studio\Projects\Unit1.dfm=E:\GitHub\IT-PAT-2019\mainmenu_u.dfm</Transaction>
+    <Transaction>2019/05/20 05:05:47.732.dproj,E:\Documents\RAD Studio\Projects\Project1.dproj=E:\GitHub\IT-PAT-2019\PAT2019.dproj</Transaction>
+    <Transaction>2019/05/20 05:17:54.733.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\COMMONS.pas</Transaction>
+  </Transactions>
+</BorlandProject>

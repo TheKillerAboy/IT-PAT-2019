@@ -2,29 +2,64 @@ unit COMMONS;
 
 interface
 
-type common<T> = class
-  class procedure append(var arr: TArray<T>; value : T);
-  class procedure remove(var arr: TArray<T>; index : integer);
-end;
+type
+  MArray<T> = class
+  private
+    function FgetIndex(Index:integer):T;   
+    function getLength:integer; 
+    function getCIndex():T;
+  public       
+    var
+      container:TArray<T>;
+      cIndex:integer;  
+    constructor Create();overload;
+    constructor Create(pre:TArray<T>);overload;
+    procedure append(value:T);
+    procedure cIndexRotate;    
+    property getIndex[Index : integer] : T read FgetIndex;default;
+    property len:integer read getLength;
+    
+  end;
+
 implementation
 
-{ common<T> }
-
-class procedure common<T>.append(var arr: array of T; value: T);
+constructor MArray<T>.Create();
 begin
-  SetLength(arr,Length(arr)+1);
-  arr[Length(arr)] := value;
+  container := TArray<T>.Create();
+  cIndex := 0;
 end;
 
-class procedure common<T>.remove(var arr: TArray<T>; index: integer);
-var
-i:integer;
+procedure MArray<T>.append(value: T);
 begin
-  for I := index to Length(arr) - 1 do
-  begin
-    arr[i] := arr[i+1];
-  end;
-  SetLength(arr,Length(arr)-1);
+  SetLength(container,len+1);
+  container[len-1]:=value;
+end;
+
+procedure MArray<T>.cIndexRotate;
+begin
+  Inc(cIndex);
+  if cIndex >= len then
+    cIndex := 0;
+end;
+
+constructor MArray<T>.Create(pre:TArray<T>);
+begin
+  container := pre;
+end;
+
+function MArray<T>.FgetIndex(Index: integer): T;
+begin
+  result:=container[Index];
+end;
+
+function MArray<T>.getCIndex: T;
+begin
+  result:= container[cIndex];
+end;
+
+function MArray<T>.getLength: integer;
+begin
+  result:= Length(container);
 end;
 
 end.
