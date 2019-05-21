@@ -47,6 +47,9 @@
 				<Form>frmMainMenu</Form>
 			</DCCReference>
 			<DCCReference Include="COMMONS.pas"/>
+			<DCCReference Include="settings_u.pas">
+				<Form>frmSettings</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

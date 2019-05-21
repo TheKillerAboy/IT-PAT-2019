@@ -21,7 +21,6 @@ object frmMainMenu: TfrmMainMenu
     Height = 310
     ParentShowHint = False
     ShowHint = False
-    Stretch = True
   end
   object Panel1: TPanel
     Left = 8
@@ -31,33 +30,16 @@ object frmMainMenu: TfrmMainMenu
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 0
-    object btnPlaylists: TButton
-      Left = 480
-      Top = 8
-      Width = 75
-      Height = 25
-      Caption = 'Playlists'
-      TabOrder = 0
-    end
-    object btnSongs: TButton
-      Left = 480
-      Top = 56
-      Width = 75
-      Height = 25
-      Caption = 'Songs'
-      TabOrder = 1
-    end
-    object btnSettings: TButton
-      Left = 8
-      Top = 56
-      Width = 75
-      Height = 25
-      Caption = 'Settings'
-      TabOrder = 2
-    end
+  end
+  object ListBox1: TListBox
+    Left = 56
+    Top = 176
+    Width = 425
+    Height = 97
+    ItemHeight = 13
+    TabOrder = 1
   end
   object tmrSlideShow: TTimer
-    Interval = 2000
     OnTimer = tmrSlideShowTimer
     Left = 400
     Top = 104

@@ -10,10 +10,8 @@ type
   TfrmMainMenu = class(TForm)
     Panel1: TPanel;
     imgSlideShow: TImage;
+    ListBox1: TListBox;
     tmrSlideShow: TTimer;
-    btnPlaylists: TButton;
-    btnSongs: TButton;
-    btnSettings: TButton;
     procedure FormCreate(Sender: TObject);
     procedure tmrSlideShowTimer(Sender: TObject);
   private
