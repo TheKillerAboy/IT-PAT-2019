@@ -11,7 +11,6 @@ object frmSettings: TfrmSettings
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object edtSearch: TEdit
@@ -28,28 +27,5 @@ object frmSettings: TfrmSettings
     Height = 25
     Caption = 'Search'
     TabOrder = 1
-    OnClick = btnSearchClick
-  end
-  object lstSettings: TListBox
-    Left = 8
-    Top = 35
-    Width = 494
-    Height = 97
-    ItemHeight = 13
-    TabOrder = 2
-    OnClick = lstSettingsClick
-  end
-  object redSettings: TRichEdit
-    Left = 8
-    Top = 138
-    Width = 494
-    Height = 137
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 3
   end
 end

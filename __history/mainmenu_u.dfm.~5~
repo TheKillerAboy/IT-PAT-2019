@@ -54,7 +54,6 @@ object frmMainMenu: TfrmMainMenu
       Height = 25
       Caption = 'Settings'
       TabOrder = 2
-      OnClick = btnSettingsClick
     end
   end
   object tmrSlideShow: TTimer
