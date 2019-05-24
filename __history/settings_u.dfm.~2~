@@ -2,8 +2,8 @@ object frmSettings: TfrmSettings
   Left = 0
   Top = 0
   Caption = 'Settings'
-  ClientHeight = 249
-  ClientWidth = 445
+  ClientHeight = 283
+  ClientWidth = 510
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,13 +14,6 @@ object frmSettings: TfrmSettings
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 8
-    Top = 35
-    Width = 39
-    Height = 13
-    Caption = 'Settings'
-  end
   object edtSearch: TEdit
     Left = 8
     Top = 8
@@ -39,39 +32,24 @@ object frmSettings: TfrmSettings
   end
   object lstSettings: TListBox
     Left = 8
-    Top = 54
-    Width = 429
+    Top = 35
+    Width = 494
     Height = 97
     ItemHeight = 13
     TabOrder = 2
     OnClick = lstSettingsClick
   end
-  object edtSettings: TLabeledEdit
+  object redSettings: TRichEdit
     Left = 8
-    Top = 176
-    Width = 429
-    Height = 21
-    EditLabel.Width = 34
-    EditLabel.Height = 13
-    EditLabel.Caption = 'Setting'
+    Top = 138
+    Width = 494
+    Height = 137
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 3
-  end
-  object Panel1: TPanel
-    Left = 8
-    Top = 203
-    Width = 431
-    Height = 42
-    BevelKind = bkTile
-    BevelOuter = bvNone
-    TabOrder = 4
-    object btnSave: TButton
-      Left = 343
-      Top = 6
-      Width = 75
-      Height = 25
-      Caption = 'Save'
-      TabOrder = 0
-      OnClick = btnSaveClick
-    end
   end
 end

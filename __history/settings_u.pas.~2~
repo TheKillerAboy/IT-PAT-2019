@@ -4,21 +4,17 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, COMMONS,StrUtils, ComCtrls, ExtCtrls;
+  Dialogs, StdCtrls, COMMONS,StrUtils, ComCtrls;
 
 type
   TfrmSettings = class(TForm)
     edtSearch: TEdit;
     btnSearch: TButton;
     lstSettings: TListBox;
-    edtSettings: TLabeledEdit;
-    Label1: TLabel;
-    Panel1: TPanel;
-    btnSave: TButton;
+    redSettings: TRichEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure lstSettingsClick(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
   private
     procedure SelectField(index:integer);
     procedure RefreashFields();
@@ -35,16 +31,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TfrmSettings.btnSaveClick(Sender: TObject);
-var
-  pair:MPair<string,string>;
-begin
-  for pair in dicSettings.pairs.container do
-  begin
-    ShowMessage(pair.key+' '+pair.value)
-  end;
-end;
 
 procedure TfrmSettings.btnSearchClick(Sender: TObject);
 var
@@ -109,13 +95,7 @@ begin
   lstSettings.ItemIndex := index;
   if index <> -1 then
   begin
-    edtSettings.EditLabel.Caption := 'Setting: '+dicSettings.keys[index];
-    edtSettings.Text := dicSettings.values[index];
-  end
-  else
-  begin
-    edtSettings.EditLabel.Caption := 'Setting';
-    edtSettings.Text := '';
+    redSettings.Text := dicSettings.values[index];
   end;
 end;
 

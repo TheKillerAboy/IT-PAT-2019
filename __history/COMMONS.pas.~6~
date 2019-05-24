@@ -23,7 +23,6 @@ type
       cIndex:integer;  
     constructor Create();overload;
     constructor Create(pre:TArray<T>);overload;
-    constructor Create(pre:array of T);overload;
     procedure append(value:T);
     procedure cIndexRotate;
     property getIndex[Index : integer] : T read FgetIndex;default;
@@ -32,16 +31,6 @@ type
     function find(value:T):integer;
     function findIf(value:T;compair:CompairFunc<T>):integer;
     procedure clear;
-  end;
-
-
-type
-  MPair<TKey,TValue> = class
-  public
-  constructor Create(okey:TKey;ovalue:TValue);
-  var
-    key:TKey;
-    value:TValue;
   end;
 
 type
@@ -59,7 +48,6 @@ type
       var
         keys : MArray<TKey>;
         values : MArray<TValue>;
-        pairs : Marray<MPair<TKey,TValue>>
   end;
 
 type
@@ -152,7 +140,6 @@ procedure MDict<TKey, TValue>.append(key: TKey; value: TValue);
 begin
   keys.append(key);
   values.append(value);
-  pairs.append(MPair<TKey,TValue>.Create(key,value));
 end;
 
 procedure MDict<TKey, TValue>.Clear;
@@ -165,7 +152,6 @@ constructor MDict<TKey, TValue>.Create;
 begin
   keys := MArray<TKey>.Create();
   values := MArray<TValue>.Create();
-  pairs := MArray<MPair<TKey,TValue>>.Create();
 end;
 
 function MDict<TKey, TValue>.GETkeyTOvalue(index: TKey): TVAlue;
@@ -211,23 +197,6 @@ begin
     iPos := Pos(spliter,line);
   end;
     result.append(line);
-end;
-
-constructor MArray<T>.Create(pre: array of T);
-var
-val:T;
-begin
-  inherited Create;
-  for val in pre do
-    append(val);
-end;
-
-{ MPair<TKey, TValue> }
-
-constructor MPair<TKey, TValue>.Create(okey: TKey; ovalue: TValue);
-begin
-  key := okey;
-  value := ovalue;
 end;
 
 end.

@@ -50,6 +50,9 @@
 			<DCCReference Include="settings_u.pas">
 				<Form>frmSettings</Form>
 			</DCCReference>
+			<DCCReference Include="errors_u.pas">
+				<Form>frmError</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
