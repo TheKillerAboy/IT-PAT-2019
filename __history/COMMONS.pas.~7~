@@ -53,7 +53,7 @@ type
       constructor Create();
       property len:integer read getLength;
       procedure append(key:TKey;value:TValue);overload;
-      property keyTOvalue[Index:TKey] :TValue read GETkeyTOvalue;default;
+      property keyTOvalue[Index:TKey] :TValue read GETkeyTOvalue;
       function valueTOkey(index:TValue): TKey;
       procedure Clear;
       var

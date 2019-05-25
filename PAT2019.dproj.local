@@ -9,5 +9,19 @@
     <Transaction>2019/05/21 02:48:15.249.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\settings_u.dfm</Transaction>
     <Transaction>2019/05/24 04:41:54.383.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\errors_u.pas</Transaction>
     <Transaction>2019/05/24 04:41:54.383.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\errors_u.dfm</Transaction>
-  </Transactions>
+    <Transaction>2019/05/25 11:59:19.262.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\help_u.pas</Transaction>
+    <Transaction>2019/05/25 11:59:19.262.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\help_u.dfm</Transaction>
+    <Transaction>2019/05/25 12:00:46.958.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\JSON.pas</Transaction>
+  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="COMMONS.pas"/>
+    <File Path="errors_u.pas"/>
+    <File Path="errors_u.dfm"/>
+    <File Path="help_u.pas"/>
+    <File Path="help_u.dfm"/>
+    <File Path="JSON.pas"/>
+    <File Path="mainmenu_u.pas"/>
+    <File Path="mainmenu_u.dfm"/>
+    <File Path="settings_u.pas"/>
+    <File Path="settings_u.dfm"/>
+  </ProjectSortOrder>
 </BorlandProject>

@@ -53,6 +53,10 @@
 			<DCCReference Include="errors_u.pas">
 				<Form>frmError</Form>
 			</DCCReference>
+			<DCCReference Include="help_u.pas">
+				<Form>frmHelp</Form>
+			</DCCReference>
+			<DCCReference Include="JSON.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

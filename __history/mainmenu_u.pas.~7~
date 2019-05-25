@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs,IOUtils, StdCtrls, ExtCtrls, COMMONS, jpeg,JSON;
+  Dialogs,IOUtils, StdCtrls, ExtCtrls, COMMONS, jpeg;
 
 type
   TfrmMainMenu = class(TForm)
@@ -40,14 +40,11 @@ end;
 procedure TfrmMainMenu.FormCreate(Sender: TObject);
 var
 sPath:string;
-obj:DictObject;
 begin
   slideshow := MArray<string>.Create();
   for sPath in TDirectory.GetFiles(GetCurrentDir+'\SlideShow')  do
         slideshow.append(sPath);
   tmrSlideShowTimer(nil);
-  obj := JSONParser.FileParse('settings.json');
-  JSONParser.JSONSave(obj,'settings.json');
 end;
 
 procedure TfrmMainMenu.tmrSlideShowTimer(Sender: TObject);
