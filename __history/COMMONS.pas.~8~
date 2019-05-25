@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Generics.Defaults,StrUtils;
+  Dialogs, StdCtrls, Generics.Defaults;
 
 type
   CompairFunc<K> = reference to function(value1,value2:K):boolean;
@@ -53,14 +53,13 @@ type
       constructor Create();
       property len:integer read getLength;
       procedure append(key:TKey;value:TValue);overload;
-      procedure append(pair:MPair<TKey,TValue>);overload;
       property keyTOvalue[Index:TKey] :TValue read GETkeyTOvalue;default;
       function valueTOkey(index:TValue): TKey;
       procedure Clear;
       var
         keys : MArray<TKey>;
         values : MArray<TValue>;
-        pairs : MArray<MPair<TKey,TValue>>
+        pairs : Marray<MPair<TKey,TValue>>
   end;
 
 type
@@ -73,12 +72,6 @@ type
   Converter<F,T> = class
     public
       class function convert(input:MArray<F>;conv:ConvertFunc<F,T>):MArray<T>;
-  end;
-
-type
-  Strings = class
-  public
-    class function Equivalent(val1,val2:string):boolean;
   end;
 
 implementation
@@ -162,11 +155,6 @@ begin
   pairs.append(MPair<TKey,TValue>.Create(key,value));
 end;
 
-procedure MDict<TKey, TValue>.append(pair: MPair<TKey, TValue>);
-begin
-  append(pair.key,pair.value);
-end;
-
 procedure MDict<TKey, TValue>.Clear;
 begin
   keys.clear;
@@ -240,13 +228,6 @@ constructor MPair<TKey, TValue>.Create(okey: TKey; ovalue: TValue);
 begin
   key := okey;
   value := ovalue;
-end;
-
-{ Strings }
-
-class function Strings.Equivalent(val1, val2: string): boolean;
-begin
-  result:=ContainsText(val1,val2);
 end;
 
 end.

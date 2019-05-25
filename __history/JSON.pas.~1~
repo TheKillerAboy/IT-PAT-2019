@@ -15,7 +15,6 @@ DictObject = class
   public
   constructor CreateFromString(sname,obj : string; typ : DictType);
   function asString():string;
-  procedure Add(obj:DictObject);
   class function QuotedName(name:string):string;
   class function KeyValueString(key,value:string):string;
   class function BoolAsString(bool:boolean):string;
@@ -44,19 +43,10 @@ JSONParser = class
     class function FileParse(Tfile:string):DictObject;
     class procedure JSONSave(obj:DictObject;sfile:string);
 end;
+
 implementation
 
 { DictObject }
-
-procedure DictObject.Add(obj: DictObject);
-begin
-  case toType of
-    dtObject:
-      toObject.append(obj.name,obj);
-    dtArray:
-      toArray.append(obj);
-  end;
-end;
 
 function DictObject.asString: string;
 var
@@ -147,10 +137,9 @@ end;
 
 class function JSONParser.FileParse(Tfile: string): DictObject;
 var
-sline,ssingle,json:string;
+sline,ssingle:string;
 TF:textfile;
-i,qu:integer;
-c:char;
+i:integer;
 begin
   AssignFile(TF,TFile);
   ssingle:='';
@@ -161,22 +150,10 @@ begin
     ssingle:=ssingle+sline;
   end;
   CloseFile(TF);
-  json := '';
-  qu := 0;
-  for I := 1 to Length(ssingle) do
-  begin
-    c :=  ssingle[i];
-    if c = '"' then
-      qu := (qu+1)mod 2;
-    if c in [#32,#9,#10] then
-    begin
-      if qu = 1 then
-        json := json + c;
-    end
-    else
-      json := json + c;
-  end;
-  result:=JSONParse(json);
+  ssingle:=StringReplace(ssingle,#32,'',[rfReplaceAll]);
+  ssingle:=StringReplace(ssingle,#9,'',[rfReplaceAll]);
+  ssingle:=StringReplace(ssingle,#10,'',[rfReplaceAll]);
+  result:=JSONParse(ssingle);
 end;
 
 class procedure JSONParser.JSONSave(obj: DictObject; sfile: string);

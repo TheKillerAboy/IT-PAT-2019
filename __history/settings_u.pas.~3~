@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, COMMONS,StrUtils, ComCtrls, ExtCtrls, JSON;
+  Dialogs, StdCtrls, COMMONS,StrUtils, ComCtrls, ExtCtrls;
 
 type
   TfrmSettings = class(TForm)
@@ -24,7 +24,7 @@ type
     procedure RefreashFields();
     procedure LoadSettings;
   var
-    dicSettings : DictObject;
+    dicSettings : MDict<string,string>;
   public
     { Public declarations }
   end;
@@ -38,11 +38,11 @@ implementation
 
 procedure TfrmSettings.btnSaveClick(Sender: TObject);
 var
-  pair:MPair<string,DictObject>;
+  pair:MPair<string,string>;
 begin
-  for pair in dicSettings.toObject.pairs.container do
+  for pair in dicSettings.pairs.container do
   begin
-    ShowMessage(pair.key+' '+pair.value.toString)
+    ShowMessage(pair.key+' '+pair.value)
   end;
 end;
 
@@ -50,7 +50,10 @@ procedure TfrmSettings.btnSearchClick(Sender: TObject);
 var
 index:integer;
 begin
-  index := dicSettings.toObject.keys.findIf(edtSearch.Text,Strings.Equivalent);
+  index := dicSettings.keys.findIf(edtSearch.Text,function(val1,val2:string):boolean
+  begin
+    result:=ContainsText(val1,val2);
+  end);
   if index <> -1 then
   begin
     SelectField(index);
@@ -59,14 +62,31 @@ end;
 
 procedure TfrmSettings.FormCreate(Sender: TObject);
 begin
+  dicSettings := MDict<string,string>.Create();
   LoadSettings;
   RefreashFields;
 end;
 
 procedure TfrmSettings.LoadSettings;
+var
+  KeyValue : MArray<string>;
+  TFile : textfile;
+  sLine:string;
 begin
-  dicSettings := JSONParser.FileParse('settings.json');
-  JSONParser.JSONSave(dicSettings,'settings.json');
+  dicSettings.clear;
+  AssignFile(TFile,'settings.txt');
+  try
+    Reset(TFile);
+  except
+    Exit;
+  end;
+  while not eof(Tfile) do
+  begin
+    ReadLn(TFile,sLine);
+    KeyValue := Parser.parse(sLine,'#');
+    dicSettings.append(KeyValue[0],KeyValue[1]);
+  end;
+  CloseFile(TFile);
 end;
 
 procedure TfrmSettings.lstSettingsClick(Sender: TObject);
@@ -79,7 +99,7 @@ var
 value:string;
 begin
   lstSettings.Items.Clear;
-  for value in dicSettings.toObject.keys.container do
+  for value in dicSettings.keys.container do
     lstSettings.Items.Add(value);
   SelectField(-1);
 end;
@@ -89,8 +109,8 @@ begin
   lstSettings.ItemIndex := index;
   if index <> -1 then
   begin
-    edtSettings.EditLabel.Caption := 'Setting: '+dicSettings.toObject.keys[index];
-    edtSettings.Text := dicSettings.toObject.values[index].toString;
+    edtSettings.EditLabel.Caption := 'Setting: '+dicSettings.keys[index];
+    edtSettings.Text := dicSettings.values[index];
   end
   else
   begin

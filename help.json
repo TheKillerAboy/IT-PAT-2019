@@ -1,0 +1,31 @@
+{
+	"help":[
+		{
+			"hasChildren":true,
+			"title":"Main Menu",
+			"content":[
+				{
+					"hasChildren":false,
+					"title":"Add Button",
+					"content":"Button that Adds"
+				},
+				{
+					"hasChildren":true,
+					"title":"Slide Show",
+					"content":[
+						{
+							"hasChildren":false,
+							"title":"Pictures",
+							"content":"Are Preselected by Developer"
+						}
+					]
+				}
+			]
+		},
+		{
+			"hasChildren":false,
+			"title":"Error",
+			"content":"Some thing bad"
+		}
+	]
+}

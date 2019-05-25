@@ -15,7 +15,6 @@ DictObject = class
   public
   constructor CreateFromString(sname,obj : string; typ : DictType);
   function asString():string;
-  procedure Add(obj:DictObject);
   class function QuotedName(name:string):string;
   class function KeyValueString(key,value:string):string;
   class function BoolAsString(bool:boolean):string;
@@ -44,19 +43,10 @@ JSONParser = class
     class function FileParse(Tfile:string):DictObject;
     class procedure JSONSave(obj:DictObject;sfile:string);
 end;
+
 implementation
 
 { DictObject }
-
-procedure DictObject.Add(obj: DictObject);
-begin
-  case toType of
-    dtObject:
-      toObject.append(obj.name,obj);
-    dtArray:
-      toArray.append(obj);
-  end;
-end;
 
 function DictObject.asString: string;
 var

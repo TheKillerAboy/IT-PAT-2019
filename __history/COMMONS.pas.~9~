@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Generics.Defaults,StrUtils;
+  Dialogs, StdCtrls, Generics.Defaults;
 
 type
   CompairFunc<K> = reference to function(value1,value2:K):boolean;
@@ -60,7 +60,7 @@ type
       var
         keys : MArray<TKey>;
         values : MArray<TValue>;
-        pairs : MArray<MPair<TKey,TValue>>
+        pairs : Marray<MPair<TKey,TValue>>
   end;
 
 type
@@ -73,12 +73,6 @@ type
   Converter<F,T> = class
     public
       class function convert(input:MArray<F>;conv:ConvertFunc<F,T>):MArray<T>;
-  end;
-
-type
-  Strings = class
-  public
-    class function Equivalent(val1,val2:string):boolean;
   end;
 
 implementation
@@ -240,13 +234,6 @@ constructor MPair<TKey, TValue>.Create(okey: TKey; ovalue: TValue);
 begin
   key := okey;
   value := ovalue;
-end;
-
-{ Strings }
-
-class function Strings.Equivalent(val1, val2: string): boolean;
-begin
-  result:=ContainsText(val1,val2);
 end;
 
 end.

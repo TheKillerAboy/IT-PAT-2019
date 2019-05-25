@@ -12,7 +12,8 @@
     <Transaction>2019/05/25 11:59:19.262.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\help_u.pas</Transaction>
     <Transaction>2019/05/25 11:59:19.262.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\help_u.dfm</Transaction>
     <Transaction>2019/05/25 12:00:46.958.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\JSON.pas</Transaction>
-  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="COMMONS.pas"/>
     <File Path="errors_u.pas"/>
     <File Path="errors_u.dfm"/>
