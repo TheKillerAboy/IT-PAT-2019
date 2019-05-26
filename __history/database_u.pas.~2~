@@ -1,0 +1,138 @@
+unit database_u;
+
+interface
+
+uses
+  SysUtils, Classes, DB, ADODB,COMMONS;
+
+type
+  TdmDataBase = class(TDataModule)
+    conDataBase: TADOConnection;
+    tblSongs: TADOTable;
+    tblPlaylists: TADOTable;
+    tblPofS: TADOTable;
+  private
+    { Private declarations }
+  public
+  end;
+
+type
+  RetrievalFunc<T> = reference to function(field:TField):T;
+ type
+  MDataBase<T> = class
+    public
+      class function LoadFieldIntoArray(table:TADOTable;field:string;retrieval:RetrievalFunc<T>):MArray<T>;overload;
+      class function LoadFields(table:TADOTable;field:string;equal:T):TFields;overload;
+  end;
+type
+  MDataBase = class
+    public
+      class function LoadFieldIntoStrings(table:TADOTable;field:string):MArray<string>;overload;
+      class function LoadFieldIntoIntegers(table:TADOTable;field:string):MArray<integer>;overload;
+      class function LoadFieldIntoDoubles(table:TADOTable;field:string):MArray<double>;overload;
+      class function LoadFieldIntoBooleans(table:TADOTable;field:string):MArray<boolean>;overload;
+      class function LoadFieldIntoCurrencys(table:TADOTable;field:string):MArray<Currency>;overload;
+      class function LoadFieldIntoDateTimes(table:TADOTable;field:string):MArray<TDateTime>;overload;
+  end;
+
+var
+  dmDataBase: TdmDataBase;
+
+implementation
+
+{$R *.dfm}
+
+{ TdmDataBase }
+
+class function MDataBase<T>.LoadFields(table: TADOTable; field: string;
+  equal: T): TFields;
+begin
+  with table do
+  begin
+    Open;
+    while not Eof do
+    begin
+      if Generics<T>.Equal(FieldByName(field).AsString,equal) then
+      begin
+        result:=tabel.Fields;
+      end;
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class function MDataBase<T>.LoadFieldIntoArray(table: TADOTable;
+  field: string;retrieval:RetrievalFunc<T>): MArray<T>;
+begin
+  result := MArray<T>.Create();
+  with table do
+  begin
+    Open;
+    while not Eof do
+    begin
+      result.append(retrieval(table.FieldByName(field)));
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+{ MDataBase }
+
+
+class function MDataBase.LoadFieldIntoBooleans(table: TADOTable;
+  field: string): MArray<boolean>;
+begin
+  result:=MDataBase<boolean>.LoadFieldIntoArray(table,field,function(field:TField):boolean
+  begin
+    result:=field.AsBoolean;
+  end)
+end;
+
+class function MDataBase.LoadFieldIntoCurrencys(table: TADOTable;
+  field: string): MArray<Currency>;
+begin
+  result:=MDataBase<Currency>.LoadFieldIntoArray(table,field,function(field:TField):Currency
+  begin
+    result:=field.AsCurrency;
+  end)
+end;
+
+class function MDataBase.LoadFieldIntoDoubles(table: TADOTable;
+  field: string): MArray<double>;
+begin
+  result:=MDataBase<double>.LoadFieldIntoArray(table,field,function(field:TField):double
+  begin
+    result:=field.AsFloat;
+  end)
+end;
+
+class function MDataBase.LoadFieldIntoIntegers(table: TADOTable;
+  field: string): MArray<integer>;
+begin
+  result:=MDataBase<integer>.LoadFieldIntoArray(table,field,function(field:TField):integer
+  begin
+    result:=field.Asinteger;
+  end)
+end;
+
+class function MDataBase.LoadFieldIntoStrings(table: TADOTable;
+  field: string): MArray<string>;
+begin
+  result:=MDataBase<string>.LoadFieldIntoArray(table,field,function(field:TField):string
+  begin
+    result:=field.Asstring;
+  end)
+end;
+
+class function MDataBase.LoadFieldIntoDateTimes(table: TADOTable;
+  field: string): MArray<TDateTime>;
+begin
+  result:=MDataBase<TDateTime>.LoadFieldIntoArray(table,field,function(field:TField):TDateTime
+  begin
+    result:=field.AsDateTime;
+  end)
+end;
+
+end.

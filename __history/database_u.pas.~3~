@@ -1,0 +1,151 @@
+unit database_u;
+
+interface
+
+uses
+  SysUtils, Classes, DB, ADODB,COMMONS;
+
+type
+  TdmDataBase = class(TDataModule)
+    conDataBase: TADOConnection;
+    tblSongs: TADOTable;
+    tblPlaylists: TADOTable;
+    tblPofS: TADOTable;
+  private
+    { Private declarations }
+  public
+  end;
+
+type
+  RetrievalFunc<T> = reference to function(field:TField):T;
+ type
+  MDataBase<T> = class
+    public
+      class function LoadFieldIntoArray(table:TADOTable;field:string;retrieval:RetrievalFunc<T>):MArray<T>;overload;
+      class function LoadFields(table:TADOTable;field:string;equal:T):TFields;overload;
+  end;
+type
+  MDataBase = class
+    public
+
+      class function FieldReturnString(field:TField):string;
+      class function FieldReturnInteger(field:TField):integer;
+      class function FieldReturnDouble(field:TField):double;
+      class function FieldReturnBoolean(field:TField):boolean;
+      class function FieldReturnCurrency(field:TField):Currency;
+      class function FieldReturnDateTime(field:TField):TDateTime;
+  end;
+
+var
+  dmDataBase: TdmDataBase;
+
+implementation
+
+{$R *.dfm}
+
+{ TdmDataBase }
+
+class function MDataBase<T>.LoadFields(table: TADOTable; field: string;
+  equal: T): TFields;
+begin
+  with table do
+  begin
+    Open;
+    while not Eof do
+    begin
+    {}
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class function MDataBase<T>.LoadFieldIntoArray(table: TADOTable;
+  field: string;retrieval:RetrievalFunc<T>): MArray<T>;
+begin
+  result := MArray<T>.Create();
+  with table do
+  begin
+    Open;
+    while not Eof do
+    begin
+      result.append(retrieval(table.FieldByName(field)));
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+{ MDataBase }
+
+
+class function MDataBase.FieldReturnDouble(field: TField): double;
+begin
+  result:=field.AsFloat;
+end;
+
+class function MDataBase.FieldReturnBoolean(field: TField): boolean;
+begin
+  result:=field.AsBoolean;
+end;
+
+class function MDataBase.FieldReturnCurrency(field: TField): Currency;
+begin
+  result:=field.AsCurrency;
+end;
+
+class function MDataBase.FieldReturnDateTime(field: TField): TDateTime;
+begin
+  result:=field.AsDateTime;
+end;
+
+class function MDataBase.FieldReturnInteger(field: TField): integer;
+begin
+  result:=field.AsInteger;
+end;
+
+class function MDataBase.FieldReturnString(field: TField): string;
+begin
+  result:=field.AsString;
+end;
+
+class function MDataBase.LoadFieldIntoBooleans(table: TADOTable;
+  field: string): MArray<boolean>;
+begin
+  result:=MDataBase<boolean>.LoadFieldIntoArray(table,field,FieldReturnBoolean)
+end;
+
+class function MDataBase.LoadFieldIntoCurrencys(table: TADOTable;
+  field: string): MArray<Currency>;
+begin
+  result:=MDataBase<Currency>.LoadFieldIntoArray(table,field,FieldReturnCurrency)
+end;
+
+class function MDataBase.LoadFieldIntoDoubles(table: TADOTable;
+  field: string): MArray<double>;
+begin
+  result:=MDataBase<double>.LoadFieldIntoArray(table,field,FieldReturnDouble)
+end;
+
+class function MDataBase.LoadFieldIntoIntegers(table: TADOTable;
+  field: string): MArray<integer>;
+begin
+  result:=MDataBase<integer>.LoadFieldIntoArray(table,field,FieldReturnInteger)
+end;
+
+class function MDataBase.LoadFieldIntoStrings(table: TADOTable;
+  field: string): MArray<string>;
+begin
+  result:=MDataBase<string>.LoadFieldIntoArray(table,field,FieldReturnString)
+end;
+
+class function MDataBase.LoadFieldIntoDateTimes(table: TADOTable;
+  field: string): MArray<TDateTime>;
+begin
+  result:=MDataBase<TDateTime>.LoadFieldIntoArray(table,field,function(field:TField):TDateTime
+  begin
+    result:=field.AsDateTime;
+  end)
+end;
+
+end.

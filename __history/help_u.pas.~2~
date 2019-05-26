@@ -21,14 +21,13 @@ type
     procedure tvwHelpChange(Sender: TObject; Node: TTreeNode);
     procedure FormShow(Sender: TObject);
   private
-    procedure Search(relevant:string);
     procedure AddToTree(Current : MArray<DictObject>; Parent : TTreeNode);
     var
       jsonHelp : DictObject;
       specialHelp : MDict<TTreeNode,string>;
       dicTree : MDict<string,TTreeNode>;
   public
-    procedure Help(relevant:string);
+    { Public declarations }
   end;
 
 var
@@ -57,8 +56,14 @@ begin
 end;
 
 procedure TfrmHelp.btnSearchClick(Sender: TObject);
+var
+  searchIndex : integer;
 begin
-  Search(edtSearch.Text);
+  searchIndex := dicTree.keys.findIF(edtSearch.Text,Strings.Equivalent);
+  if searchIndex <> -1 then
+    tvwHelp.Select(dicTree.values[searchIndex]);
+     dicTree.values[searchIndex].Expanded:=true;
+  tvwHelp.SetFocus;
 end;
 
 procedure TfrmHelp.FormCreate(Sender: TObject);
@@ -76,23 +81,6 @@ begin
   for tmpNode in dicTree.values.container do
     tmpNode.Expanded := false;
   redHelp.Text := '';
-end;
-
-procedure TfrmHelp.Help(relevant: string);
-begin
-  Show;
-  Search(relevant);
-end;
-
-procedure TfrmHelp.Search(relevant: string);
-var
-  searchIndex : integer;
-begin
-  searchIndex := dicTree.keys.findIF(relevant,Strings.Equivalent);
-  if searchIndex <> -1 then
-    tvwHelp.Select(dicTree.values[searchIndex]);
-     dicTree.values[searchIndex].Expanded:=true;
-  tvwHelp.SetFocus;
 end;
 
 procedure TfrmHelp.tvwHelpChange(Sender: TObject; Node: TTreeNode);

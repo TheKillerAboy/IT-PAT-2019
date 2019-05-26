@@ -30,111 +30,108 @@ type
   HelpProc = reference to procedure;
 
 type
-  Error = class
+  TError = class
     private
     var
-      sTitle,sMessage,sHelp : string;
+      sTitle,sMessage : string;
       hButtons : MArray<ErrorButtons>;
+      Method : HelpProc;
     public
-      constructor Create(Title,oMessage:string;Buttons:MArray<ErrorButtons>;help:string);
+      constructor Create(Title,oMessage:string;Buttons:MArray<ErrorButtons>;oMethod:HelpProc);
       procedure Show;
-      class procedure QuickShow(Title, oMessage:string;Buttons:MArray<ErrorButtons>;help:string); overload;
+      class procedure QuickShow(Title, oMessage:string;Buttons:MArray<ErrorButtons>;oMethod:HelpProc); overload;
       class procedure QuickShow(Title, oMessage:string;Buttons:MArray<ErrorButtons>);overload;
-      class procedure QuickShow(Title, oMessage:string;Buttons:array of ErrorButtons;help:string); overload;
+      class procedure QuickShow(Title, oMessage:string;Buttons:array of ErrorButtons;oMethod:HelpProc); overload;
       class procedure QuickShow(Title, oMessage:string;Buttons:array of ErrorButtons);overload;
       class procedure QuickShow(Title, oMessage:string);overload;
-      class procedure QuickShow(Title, oMessage, help:string);overload;
-      class procedure QuickShow(oMessage:string;Buttons:MArray<ErrorButtons>;help:string);overload;
+      class procedure QuickShow(oMessage:string;Buttons:MArray<ErrorButtons>;oMethod:HelpProc);overload;
       class procedure QuickShow(oMessage:string;Buttons:MArray<ErrorButtons>);overload;
-      class procedure QuickShow(oMessage:string;Buttons:array of ErrorButtons;help:string);overload;
+      class procedure QuickShow(oMessage:string;Buttons:array of ErrorButtons;oMethod:HelpProc);overload;
       class procedure QuickShow(oMessage:string;Buttons:array of ErrorButtons);overload;
       class procedure QuickShow(oMessage:string);overload;
   end;
 var
-  err : Error;
+  error : TError;
   frmError: TfrmError;
 
 implementation
-
-uses help_u;
 
 {$R *.dfm}
 
 { THelp }
 
-constructor Error.Create(Title, oMessage: string; Buttons: MArray<ErrorButtons>;help:string);
+constructor TError.Create(Title, oMessage: string; Buttons: MArray<ErrorButtons>;oMethod:HelpProc);
 begin
   sTitle := Title;
   sMEssage := oMessage;
   hButtons := Buttons;
-  sHelp := help;
+  Method := oMethod;
 end;
 
-class procedure Error.QuickShow(Title, oMessage: string);
+class procedure TError.QuickShow(Title, oMessage: string);
 begin
   QuickShow(Title, oMessage,MArray<ErrorButtons>(hbCancel));
 end;
 
-class procedure Error.QuickShow(Title, oMessage: string;
+class procedure TError.QuickShow(Title, oMessage: string;
   Buttons: MArray<ErrorButtons>);
 begin
-  QuickShow(Title,oMessage,Buttons,'')
+  QuickShow(Title,oMessage,Buttons,procedure
+  begin
+  end)
 end;
 
-class procedure Error.QuickShow(Title, oMessage: string;
-  Buttons: MArray<ErrorButtons>; help:string);
+class procedure TError.QuickShow(Title, oMessage: string;
+  Buttons: MArray<ErrorButtons>; oMethod: HelpProc);
 begin
-  err := Error.Create(Title,oMessage,Buttons,help);
-  err.Show;
+  error := TError.Create(Title,oMessage,Buttons,oMethod);
+  error.Show;
 end;
 
-class procedure Error.QuickShow(oMessage: string);
+class procedure TError.QuickShow(oMessage: string);
 begin
   QuickShow(oMessage,MArray<ErrorButtons>.Create(TArray<ErrorButtons>.Create(hbCancel)));
 end;
 
-class procedure Error.QuickShow(Title, oMessage, help: string);
-begin
-  QuickShow(Title,oMessage,[hbCancel,hbHelp],help);
-end;
-
-class procedure Error.QuickShow(Title, oMessage: string;
+class procedure TError.QuickShow(Title, oMessage: string;
   Buttons: array of ErrorButtons);
 begin
   QuickShow(Title,oMessage,MArray<ErrorButtons>.Create(Buttons));
 end;
 
-class procedure Error.QuickShow(Title, oMessage: string;
-  Buttons: array of ErrorButtons; help:string);
+class procedure TError.QuickShow(Title, oMessage: string;
+  Buttons: array of ErrorButtons; oMethod: HelpProc);
 begin
-  QuickShow(Title,oMessage,MArray<ErrorButtons>.Create(Buttons),help);
+  QuickShow(Title,oMessage,MArray<ErrorButtons>.Create(Buttons),oMethod);
 end;
 
-class procedure Error.QuickShow(oMessage: string;
+class procedure TError.QuickShow(oMessage: string;
   Buttons: array of ErrorButtons);
 begin
   QuickShow(oMessage,MArray<ErrorButtons>.Create(Buttons));
 end;
 
-class procedure Error.QuickShow(oMessage: string;
-  Buttons: array of ErrorButtons; help:string);
+class procedure TError.QuickShow(oMessage: string;
+  Buttons: array of ErrorButtons; oMethod: HelpProc);
 begin
-  QuickShow(oMessage,MArray<ErrorButtons>.Create(Buttons),help);
+  QuickShow(oMessage,MArray<ErrorButtons>.Create(Buttons),oMethod);
 end;
 
-class procedure Error.QuickShow(oMessage: string;
+class procedure TError.QuickShow(oMessage: string;
   Buttons: MArray<ErrorButtons>);
 begin
-  QuickShow(oMessage,Buttons,'');
+  QuickShow(oMessage,Buttons,procedure
+  begin
+  end);
 end;
 
-class procedure Error.QuickShow(oMessage: string;
-  Buttons: MArray<ErrorButtons>; help:string);
+class procedure TError.QuickShow(oMessage: string;
+  Buttons: MArray<ErrorButtons>; oMethod: HelpProc);
 begin
-  QuickShow('',oMessage,Buttons,help);
+  QuickShow('',oMessage,Buttons,oMethod);
 end;
 
-procedure Error.Show;
+procedure TError.Show;
 var
 but : ErrorButtons;
 x:integer;
@@ -183,14 +180,14 @@ end;
 
 procedure TfrmError.btnHelpClick(Sender: TObject);
 begin
-  if err <> nil then
-    frmHelp.Help(err.sHelp);
+  if error <> nil then
+    error.Method();
   Close;
 end;
 
 procedure TfrmError.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  err.Free;
+  error.Free;
 end;
 
 procedure TfrmError.ResetButtons;

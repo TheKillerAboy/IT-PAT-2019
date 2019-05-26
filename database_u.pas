@@ -1,0 +1,157 @@
+unit database_u;
+
+interface
+
+uses
+  SysUtils, Classes, DB, ADODB,COMMONS, Dialogs;
+
+type
+  TdmDataBase = class(TDataModule)
+    conDataBase: TADOConnection;
+    tblSongs: TADOTable;
+    tblPlaylists: TADOTable;
+    tblPofS: TADOTable;
+  private
+    { Private declarations }
+  public
+  end;
+
+type
+  FoundProc = reference to procedure(fields: TFields);
+type
+  MDataBase = class
+    public
+      class function LoadFieldIntoArray(table:TADOTable;field:string):MArray<Variant>;
+      class procedure UseFields(table:TADOTable;field:string;equal : Variant
+      ;first_break:boolean;__found:FoundProc);overload;
+      class procedure UseFields(table:TADOTable;field:string;equal : Variant;__found:
+      FoundProc);overload;
+      class procedure WriteFields(table:TADOTable;__found:FoundProc);
+      class procedure EditFields(table:TADOTable;field:string;equal : Variant;__found:
+      FoundProc);
+      class procedure RemoveFields(table:TADOTable;field:string;equal : Variant);
+  end;
+
+var
+  dmDataBase: TdmDataBase;
+
+implementation
+
+{$R *.dfm}
+
+{ TdmDataBase }
+
+class procedure MDataBase.UseFields(table:TADOTable;field:string;
+equal : Variant;first_break:boolean;__found:FoundProc);
+begin
+  with table do
+  begin
+    Open;
+    First;
+    while not Eof do
+    begin
+      if table.FieldByName(field).Value = equal then
+      begin
+        __found(Fields);
+        if first_break then
+        begin
+          Close;
+          break;
+        end;
+      end;
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class procedure MDataBase.EditFields(table: TADOTable; field: string;
+  equal: Variant; __found: FoundProc);
+begin
+  with table do
+  begin
+    Open;
+    First;
+    while not Eof do
+    begin
+      if table.FieldByName(field).Value = equal then
+      begin
+        Edit;
+        __found(Fields);
+        Post;
+        Close;
+        break;
+      end;
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class function MDataBase.LoadFieldIntoArray(table: TADOTable;
+  field: string): MArray<Variant>;
+begin
+  result := MArray<Variant>.Create();
+  with table do
+  begin
+    Open;
+    First;
+    while not Eof do
+    begin
+      result.append(table.FieldByName(field).Value);
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class procedure MDataBase.RemoveFields(table: TADOTable; field: string;
+  equal: Variant);
+var
+_found : boolean;
+begin
+  _found := false;
+  with table do
+  begin
+    Open;
+    First;
+    while not Eof do
+    begin
+      if not _found then
+      begin
+        if table.FieldByName(field).Value = equal then
+        begin
+          Delete;
+          Edit;
+        end;
+      end
+      else
+      begin
+        table.FieldByName('id').AsInteger:=table.FieldByName('id').AsInteger-1;
+      end;
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class procedure MDataBase.UseFields(table: TADOTable; field: string;
+  equal: Variant; __found: FoundProc);
+begin
+  UseFields(table,field,equal,true,__found);
+end;
+
+class procedure MDataBase.WriteFields(table: TADOTable; __found: FoundProc);
+begin
+  with table do
+  begin
+    Open;
+    Last;
+    Insert;
+    __found(Fields);
+    Post;
+    Close;
+  end;
+end;
+
+end.

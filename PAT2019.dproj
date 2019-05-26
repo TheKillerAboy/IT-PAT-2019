@@ -57,6 +57,14 @@
 				<Form>frmHelp</Form>
 			</DCCReference>
 			<DCCReference Include="JSON.pas"/>
+			<DCCReference Include="playlists_u.pas">
+				<Form>frmPlaylists</Form>
+			</DCCReference>
+			<DCCReference Include="COMPONENTS.pas"/>
+			<DCCReference Include="database_u.pas">
+				<Form>dmDataBase</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

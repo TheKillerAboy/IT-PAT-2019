@@ -1,0 +1,91 @@
+unit playlists_u;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, ComCtrls, COMPONENTS, COMMONS, DB;
+
+type
+  TfrmPlaylists = class(TForm)
+    edtSearch: TEdit;
+    btnSearch: TButton;
+    Panel1: TPanel;
+    btnSave: TButton;
+    Panel2: TPanel;
+    Button1: TButton;
+    pnlDescription: TPanel;
+    lbxPlaylists: TListBox;
+    Label1: TLabel;
+    pnlInfo: TPanel;
+    lbxSongs: TListBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    lbxSongsinPlaylist: TListBox;
+    btnRemove: TButton;
+    btnAdd: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure lbxPlaylistsClick(Sender: TObject);
+  private
+    procedure UpdatePlaylistsLIST;
+    procedure SelectPlaylist(play:string);overload;
+    procedure SelectPlaylist(index:integer);overload;
+    var
+      epDescription : ExtendablePanel;
+      allPlaylists : MArray<string>;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPlaylists: TfrmPlaylists;
+
+implementation
+
+uses database_u;
+
+{$R *.dfm}
+
+procedure TfrmPlaylists.FormCreate(Sender: TObject);
+begin
+  epDescription := ExtendablePanel.Extend(pnlDescription,'Description');
+  allPlaylists := MDataBase.LoadFieldIntoStrings(dmDataBase.tblPlaylists,'name');
+  UpdatePlaylistsLIST;
+end;
+
+procedure TfrmPlaylists.SelectPlaylist(play: string);
+var
+  specialIndex:integer;
+begin
+  SelectPlaylist(allPlaylists.findIf(play,Strings.Equivalent));
+end;
+
+procedure TfrmPlaylists.lbxPlaylistsClick(Sender: TObject);
+begin
+  SelectPlaylist(lbxPlaylists.ItemIndex);
+end;
+
+procedure TfrmPlaylists.SelectPlaylist(index: integer);
+var
+fieldname : string;
+currentfields:TFields;
+begin
+  if index <> -1 then
+  begin
+    lbxPlaylists.ItemIndex :=index;
+    fieldname := lbxPlaylists.Items[index];
+    currentfields := MDataBase<string>.LoadFields(dmDataBase.tblPlaylists,'name',fieldname);
+    epDescription.field.Text := currentfields.FieldByName('name').AsString;
+  end;
+end;
+
+procedure TfrmPlaylists.UpdatePlaylistsLIST;
+var
+  temp:string;
+begin
+  lbxPlaylists.Items.Clear;
+  for temp in allPlaylists.container do
+    lbxPlaylists.Items.Add(temp);
+end;
+
+end.

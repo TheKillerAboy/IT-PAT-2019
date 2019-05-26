@@ -15,23 +15,22 @@ type
   private
     function FgetIndex(Index:integer):T;
     function getLength:integer;
-    procedure WtoIndex(index:integer;value:T);
-  public
+    var
+      lComparer: IEqualityComparer<T>;
+  public       
     var
       container:TArray<T>;
-      cIndex:integer;
+      cIndex:integer;  
     constructor Create();overload;
     constructor Create(pre:TArray<T>);overload;
     constructor Create(pre:array of T);overload;
     procedure append(value:T);
-    procedure delete(index:integer);
     procedure cIndexRotate;
-    property getIndex[Index : integer] : T read FgetIndex write WtoIndex;default;
+    property getIndex[Index : integer] : T read FgetIndex;default;
     property len:integer read getLength;
     function getCIndex():T;
     function find(value:T):integer;
     function findIf(value:T;compair:CompairFunc<T>):integer;
-    class function Equal(val1, val2: T): boolean;
     procedure clear;
   end;
 
@@ -55,7 +54,6 @@ type
       property len:integer read getLength;
       procedure append(key:TKey;value:TValue);overload;
       procedure append(pair:MPair<TKey,TValue>);overload;
-      procedure delete(index:integer);
       property keyTOvalue[Index:TKey] :TValue read GETkeyTOvalue;default;
       function valueTOkey(index:TValue): TKey;
       procedure Clear;
@@ -81,13 +79,13 @@ type
   Strings = class
   public
     class function Equivalent(val1,val2:string):boolean;
-    class function EquivalentV(val1,val2:Variant):boolean;
   end;
 
 implementation
 
 constructor MArray<T>.Create();
 begin
+  lComparer := TEqualityComparer<T>.Default;
   container := TArray<T>.Create();
   cIndex := 0;
 end;
@@ -112,7 +110,6 @@ end;
 
 constructor MArray<T>.Create(pre:TArray<T>);
 begin
-  inherited Create;
   container := pre;
 end;
 
@@ -125,7 +122,10 @@ function MArray<T>.find(value: T): integer;
 var
 i:integer;
 begin
-  result:=findIf(value,Equal);
+  result:=findIf(value,function(value1,value2:T):boolean
+  begin
+     result:= lComparer.Equals(value1,value2);
+  end);
 end;
 
 function MArray<T>.findIf(value: T; compair: CompairFunc<T>): integer;
@@ -153,11 +153,6 @@ begin
   result:= Length(container);
 end;
 
-procedure MArray<T>.WtoIndex(index: integer; value: T);
-begin
-  container[index] := value;
-end;
-
 { MDict<Key, Value> }
 
 procedure MDict<TKey, TValue>.append(key: TKey; value: TValue);
@@ -183,21 +178,6 @@ begin
   keys := MArray<TKey>.Create();
   values := MArray<TValue>.Create();
   pairs := MArray<MPair<TKey,TValue>>.Create();
-end;
-
-procedure MDict<TKey, TValue>.delete(index: integer);
-begin
-  keys.delete(index);
-  values.delete(index);
-  pairs.delete(index);
-end;
-
-class function MArray<T>.Equal(val1, val2: T): boolean;
-var
-  lComparer: IEqualityComparer<T>;
-begin
-  lComparer := TEqualityComparer<T>.Default;
-  result:= lComparer.Equals(val1,val2);
 end;
 
 function MDict<TKey, TValue>.GETkeyTOvalue(index: TKey): TVAlue;
@@ -254,20 +234,6 @@ begin
     append(val);
 end;
 
-procedure MArray<T>.delete(index: integer);
-var
-new_array:TArray<T>;
-i : integer;
-begin
-  new_array:=TArray<T>.Create();
-  SetLength(new_array,len-1);
-  for I := 0 to index - 1 do
-    new_array[i] := container[i];
-  for I := index+1 to len - 1 do
-    new_array[i-1] := container[i];
-  container := new_array;
-end;
-
 { MPair<TKey, TValue> }
 
 constructor MPair<TKey, TValue>.Create(okey: TKey; ovalue: TValue);
@@ -279,11 +245,6 @@ end;
 { Strings }
 
 class function Strings.Equivalent(val1, val2: string): boolean;
-begin
-  result:=ContainsText(val1,val2);
-end;
-
-class function Strings.EquivalentV(val1, val2: Variant): boolean;
 begin
   result:=ContainsText(val1,val2);
 end;

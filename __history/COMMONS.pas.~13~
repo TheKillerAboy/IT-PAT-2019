@@ -15,7 +15,6 @@ type
   private
     function FgetIndex(Index:integer):T;
     function getLength:integer;
-    procedure WtoIndex(index:integer;value:T);
   public
     var
       container:TArray<T>;
@@ -24,9 +23,8 @@ type
     constructor Create(pre:TArray<T>);overload;
     constructor Create(pre:array of T);overload;
     procedure append(value:T);
-    procedure delete(index:integer);
     procedure cIndexRotate;
-    property getIndex[Index : integer] : T read FgetIndex write WtoIndex;default;
+    property getIndex[Index : integer] : T read FgetIndex;default;
     property len:integer read getLength;
     function getCIndex():T;
     function find(value:T):integer;
@@ -55,7 +53,6 @@ type
       property len:integer read getLength;
       procedure append(key:TKey;value:TValue);overload;
       procedure append(pair:MPair<TKey,TValue>);overload;
-      procedure delete(index:integer);
       property keyTOvalue[Index:TKey] :TValue read GETkeyTOvalue;default;
       function valueTOkey(index:TValue): TKey;
       procedure Clear;
@@ -153,11 +150,6 @@ begin
   result:= Length(container);
 end;
 
-procedure MArray<T>.WtoIndex(index: integer; value: T);
-begin
-  container[index] := value;
-end;
-
 { MDict<Key, Value> }
 
 procedure MDict<TKey, TValue>.append(key: TKey; value: TValue);
@@ -183,13 +175,6 @@ begin
   keys := MArray<TKey>.Create();
   values := MArray<TValue>.Create();
   pairs := MArray<MPair<TKey,TValue>>.Create();
-end;
-
-procedure MDict<TKey, TValue>.delete(index: integer);
-begin
-  keys.delete(index);
-  values.delete(index);
-  pairs.delete(index);
 end;
 
 class function MArray<T>.Equal(val1, val2: T): boolean;
@@ -252,20 +237,6 @@ begin
   inherited Create;
   for val in pre do
     append(val);
-end;
-
-procedure MArray<T>.delete(index: integer);
-var
-new_array:TArray<T>;
-i : integer;
-begin
-  new_array:=TArray<T>.Create();
-  SetLength(new_array,len-1);
-  for I := 0 to index - 1 do
-    new_array[i] := container[i];
-  for I := index+1 to len - 1 do
-    new_array[i-1] := container[i];
-  container := new_array;
 end;
 
 { MPair<TKey, TValue> }

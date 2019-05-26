@@ -12,6 +12,13 @@
     <Transaction>2019/05/25 11:59:19.262.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\help_u.pas</Transaction>
     <Transaction>2019/05/25 11:59:19.262.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\help_u.dfm</Transaction>
     <Transaction>2019/05/25 12:00:46.958.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\JSON.pas</Transaction>
+    <Transaction>2019/05/26 04:40:08.840.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\playlists_u.pas</Transaction>
+    <Transaction>2019/05/26 04:40:08.840.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\playlists_u.dfm</Transaction>
+    <Transaction>2019/05/26 04:42:03.985.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\COMPONENTS.pas</Transaction>
+    <Transaction>2019/05/26 05:27:27.703.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\dmDataBase.pas</Transaction>
+    <Transaction>2019/05/26 05:27:27.703.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\dmDataBase.dfm</Transaction>
+    <Transaction>2019/05/26 05:27:40.135.pas,E:\GitHub\IT-PAT-2019\dmDataBase.pas=E:\GitHub\IT-PAT-2019\database_u.pas</Transaction>
+    <Transaction>2019/05/26 05:27:40.135.dfm,E:\GitHub\IT-PAT-2019\dmDataBase.dfm=E:\GitHub\IT-PAT-2019\database_u.dfm</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="COMMONS.pas"/>
@@ -24,5 +31,10 @@
     <File Path="mainmenu_u.dfm"/>
     <File Path="settings_u.pas"/>
     <File Path="settings_u.dfm"/>
+    <File Path="playlists_u.pas"/>
+    <File Path="playlists_u.dfm"/>
+    <File Path="COMPONENTS.pas"/>
+    <File Path="database_u.pas"/>
+    <File Path="database_u.dfm"/>
   </ProjectSortOrder>
 </BorlandProject>

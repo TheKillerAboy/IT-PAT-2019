@@ -1,0 +1,72 @@
+unit database_u;
+
+interface
+
+uses
+  SysUtils, Classes, DB, ADODB,COMMONS, Dialogs;
+
+type
+  TdmDataBase = class(TDataModule)
+    conDataBase: TADOConnection;
+    tblSongs: TADOTable;
+    tblPlaylists: TADOTable;
+    tblPofS: TADOTable;
+  private
+    { Private declarations }
+  public
+  end;
+
+type
+  FoundProc = reference to procedure(fields: TFields);
+type
+  MDataBase = class
+    public
+      class function LoadFieldIntoArray(table:TADOTable;field:string):MArray<Variant>;
+      class procedure UseFields(table:TADOTable;field:string;equal : Variant;__found:FoundProc);
+  end;
+
+var
+  dmDataBase: TdmDataBase;
+
+implementation
+
+{$R *.dfm}
+
+{ TdmDataBase }
+
+class procedure MDataBase.UseFields(table:TADOTable;field:string;
+equal : Variant;__found:FoundProc);
+begin
+  with table do
+  begin
+    Open;
+    while not Eof do
+    begin
+      if table.FieldByName(field).Value = equal then
+      begin
+        __found(table.Fields);
+        break;
+      end;
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+class function MDataBase.LoadFieldIntoArray(table: TADOTable;
+  field: string): MArray<Variant>;
+begin
+  result := MArray<Variant>.Create();
+  with table do
+  begin
+    Open;
+    while not Eof do
+    begin
+      result.append(table.FieldByName(field).Value);
+      Next;
+    end;
+    Close;
+  end;
+end;
+
+end.

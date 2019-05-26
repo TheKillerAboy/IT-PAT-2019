@@ -55,7 +55,6 @@ object frmSettings: TfrmSettings
     EditLabel.Height = 13
     EditLabel.Caption = 'Setting'
     TabOrder = 3
-    OnChange = edtSettingsChange
   end
   object Panel1: TPanel
     Left = 8

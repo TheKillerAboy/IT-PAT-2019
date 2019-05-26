@@ -29,13 +29,13 @@ var
 
 implementation
 
-uses settings_u,playlists_u;
+uses settings_u,help_u;
 
 {$R *.dfm}
 
 procedure TfrmMainMenu.btnPlaylistsClick(Sender: TObject);
 begin
-  frmPlaylists.Show;
+      frmHelp.Show;
 end;
 
 procedure TfrmMainMenu.btnSettingsClick(Sender: TObject);
