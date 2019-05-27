@@ -18,7 +18,6 @@ type
     procedure tmrSlideShowTimer(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
     procedure btnPlaylistsClick(Sender: TObject);
-    procedure btnSongsClick(Sender: TObject);
   private
     slideshow:MArray<string>;
   public
@@ -30,7 +29,7 @@ var
 
 implementation
 
-uses settings_u,playlists_u, songs_u;
+uses settings_u,playlists_u;
 
 {$R *.dfm}
 
@@ -42,11 +41,6 @@ end;
 procedure TfrmMainMenu.btnSettingsClick(Sender: TObject);
 begin
   frmSettings.Show;
-end;
-
-procedure TfrmMainMenu.btnSongsClick(Sender: TObject);
-begin
-  frmSongs.Show;
 end;
 
 procedure TfrmMainMenu.FormCreate(Sender: TObject);

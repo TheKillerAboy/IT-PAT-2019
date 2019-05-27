@@ -47,7 +47,6 @@ object frmMainMenu: TfrmMainMenu
       Height = 25
       Caption = 'Songs'
       TabOrder = 1
-      OnClick = btnSongsClick
     end
     object btnSettings: TButton
       Left = 8

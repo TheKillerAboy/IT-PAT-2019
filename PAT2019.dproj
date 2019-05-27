@@ -65,6 +65,9 @@
 				<Form>dmDataBase</Form>
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
+			<DCCReference Include="songs_u.pas">
+				<Form>frmSongs</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

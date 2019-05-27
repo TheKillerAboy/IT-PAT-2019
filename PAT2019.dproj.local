@@ -19,6 +19,8 @@
     <Transaction>2019/05/26 05:27:27.703.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\dmDataBase.dfm</Transaction>
     <Transaction>2019/05/26 05:27:40.135.pas,E:\GitHub\IT-PAT-2019\dmDataBase.pas=E:\GitHub\IT-PAT-2019\database_u.pas</Transaction>
     <Transaction>2019/05/26 05:27:40.135.dfm,E:\GitHub\IT-PAT-2019\dmDataBase.dfm=E:\GitHub\IT-PAT-2019\database_u.dfm</Transaction>
+    <Transaction>2019/05/27 05:13:28.753.pas,E:\GitHub\IT-PAT-2019\Unit1.pas=E:\GitHub\IT-PAT-2019\songs_u.pas</Transaction>
+    <Transaction>2019/05/27 05:13:28.754.dfm,E:\GitHub\IT-PAT-2019\Unit1.dfm=E:\GitHub\IT-PAT-2019\songs_u.dfm</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="COMMONS.pas"/>
@@ -36,5 +38,7 @@
     <File Path="COMPONENTS.pas"/>
     <File Path="database_u.pas"/>
     <File Path="database_u.dfm"/>
+    <File Path="songs_u.pas"/>
+    <File Path="songs_u.dfm"/>
   </ProjectSortOrder>
 </BorlandProject>

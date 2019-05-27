@@ -53,9 +53,9 @@ type
   private
     procedure UpdatePlaylistsLIST;
     procedure UpdateSongsLIST;
-    procedure UpdateALLSongs;
     procedure UpdateThisSongsLIST;
     procedure UpdateALLPlaylists;
+    procedure UpdateALLSongs;
     procedure SelectPlaylist(play:string);overload;
     procedure SelectPlaylist(index:integer);overload;
     procedure Enabled(ena:boolean);

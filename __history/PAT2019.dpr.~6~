@@ -10,8 +10,7 @@ uses
   JSON in 'JSON.pas',
   playlists_u in 'playlists_u.pas' {frmPlaylists},
   COMPONENTS in 'COMPONENTS.pas',
-  database_u in 'database_u.pas' {dmDataBase: TDataModule},
-  songs_u in 'songs_u.pas' {frmSongs};
+  database_u in 'database_u.pas' {dmDataBase: TDataModule};
 
 {$R *.res}
 
@@ -24,6 +23,5 @@ begin
   Application.CreateForm(TfrmHelp, frmHelp);
   Application.CreateForm(TdmDataBase, dmDataBase);
   Application.CreateForm(TfrmPlaylists, frmPlaylists);
-  Application.CreateForm(TfrmSongs, frmSongs);
   Application.Run;
 end.
