@@ -35,7 +35,6 @@ object frmSongs: TfrmSongs
     Height = 25
     Caption = 'Search'
     TabOrder = 1
-    OnClick = btnSearchClick
   end
   object lbxSongs: TListBox
     Left = 8
@@ -139,25 +138,25 @@ object frmSongs: TfrmSongs
     Left = 8
     Top = 279
     Width = 753
-    Height = 34
+    Height = 99
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 4
   end
   object pnlHistory: TPanel
     Left = 8
-    Top = 319
-    Width = 752
-    Height = 34
+    Top = 384
+    Width = 370
+    Height = 105
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 5
   end
   object pnlLyrics: TPanel
-    Left = 8
-    Top = 359
-    Width = 752
-    Height = 34
+    Left = 384
+    Top = 384
+    Width = 376
+    Height = 105
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 6

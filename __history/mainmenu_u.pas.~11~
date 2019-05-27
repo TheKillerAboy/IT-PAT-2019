@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, IOUtils, StdCtrls, ExtCtrls, COMMONS, jpeg, JSON;
+  Dialogs,IOUtils, StdCtrls, ExtCtrls, COMMONS, jpeg,JSON;
 
 type
   TfrmMainMenu = class(TForm)
@@ -20,7 +20,7 @@ type
     procedure btnPlaylistsClick(Sender: TObject);
     procedure btnSongsClick(Sender: TObject);
   private
-    slideshow: MArray<string>;
+    slideshow:MArray<string>;
   public
     { Public declarations }
   end;
@@ -30,7 +30,8 @@ var
 
 implementation
 
-uses settings_u, playlists_u, songs_u;
+uses settings_u,playlists_u, songs_u;
+
 {$R *.dfm}
 
 procedure TfrmMainMenu.btnPlaylistsClick(Sender: TObject);
@@ -50,12 +51,12 @@ end;
 
 procedure TfrmMainMenu.FormCreate(Sender: TObject);
 var
-  sPath: string;
-  obj: DictObject;
+sPath:string;
+obj:DictObject;
 begin
   slideshow := MArray<string>.Create();
-  for sPath in TDirectory.GetFiles(GetCurrentDir + '\SlideShow') do
-    slideshow.append(sPath);
+  for sPath in TDirectory.GetFiles(GetCurrentDir+'\SlideShow')  do
+        slideshow.append(sPath);
   tmrSlideShowTimer(nil);
 end;
 
