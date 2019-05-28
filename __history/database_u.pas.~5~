@@ -30,7 +30,6 @@ type
       class procedure EditFields(table:TADOTable;field:string;equal : Variant;__found:
       FoundProc);
       class procedure RemoveFields(table:TADOTable;field:string;equal : Variant);
-      class function ContainsFields(table:TADOTable;field:string;equal : Variant):boolean;
   end;
 
 var
@@ -64,27 +63,6 @@ begin
     end;
     Close;
   end;
-end;
-
-class function MDataBase.ContainsFields(table: TADOTable; field: string;
-  equal: Variant): boolean;
-begin
-  with table do
-  begin
-    Open;
-    First;
-    while not Eof do
-    begin
-      if table.FieldByName(field).Value = equal then
-      begin
-        result:=true;
-        Exit;
-      end;
-      Next;
-    end;
-    Close;
-  end;
-  result:=false;
 end;
 
 class procedure MDataBase.EditFields(table: TADOTable; field: string;

@@ -32,7 +32,6 @@ object frmError: TfrmError
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    ReadOnly = True
     TabOrder = 0
   end
   object Panel1: TPanel

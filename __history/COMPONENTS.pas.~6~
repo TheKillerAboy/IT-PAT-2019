@@ -23,7 +23,7 @@ type
     procedure Expand;
     procedure ResetRichEdit;
     function Expanded: boolean;
-    procedure Enabled(ena:boolean);
+
   var
     panel: TPanel;
     header: TLabel;
@@ -113,14 +113,6 @@ begin
   expander.Caption := '+';
   ResetRichEdit;
   expander.Top := 5;
-end;
-
-procedure ExtendablePanel.Enabled(ena: boolean);
-begin
-  field.Enabled:=ena;
-  header.Enabled:=ena;
-  if Assigned(expander) then
-    expander.Enabled:=ena;
 end;
 
 procedure ExtendablePanel.Expand;

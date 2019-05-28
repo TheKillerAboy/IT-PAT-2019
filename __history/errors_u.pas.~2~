@@ -72,7 +72,7 @@ end;
 
 class procedure Error.QuickShow(Title, oMessage: string);
 begin
-  QuickShow(Title, oMessage,MArray<ErrorButtons>.Create([hbCancel]));
+  QuickShow(Title, oMessage,MArray<ErrorButtons>(hbCancel));
 end;
 
 class procedure Error.QuickShow(Title, oMessage: string;

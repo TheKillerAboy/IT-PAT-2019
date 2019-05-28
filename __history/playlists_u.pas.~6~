@@ -123,7 +123,6 @@ begin
     Clear;
     UpdateALLPlaylists;
     UpdatePlaylistsLIST;
-    btnDelete.Enabled:=false;
   end;
 end;
 
@@ -204,7 +203,6 @@ begin
   for i := 0 to ComponentCount - 1 do
     if alwaysEnabled.find(COMPONENTS[i]) = -1 then
       TGraphicControl(COMPONENTS[i]).Enabled := ena;
-  epDescription.Enabled(ena);
 end;
 
 procedure TfrmPlaylists.FormCreate(Sender: TObject);
