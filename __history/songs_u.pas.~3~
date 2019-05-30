@@ -56,7 +56,7 @@ type
     procedure Clear;
     function DialogsClick(name: string): TiggerComponentProc;
     procedure AnoSave(fields: TFields);
-    function CorrectInputs(checkExists:boolean):boolean;
+    function CorrectInputs:boolean;
   var
     epDialogs: MDict<string, ExtendablePanel>;
     imageLinker: LinkedButton;
@@ -127,7 +127,7 @@ end;
 
 procedure TfrmSongs.btnSaveClick(Sender: TObject);
 begin
-  if not CorrectInputs(currentMode = smNew) then
+  if not CorrectInputs then
     Exit;
   case currentMode of
     smEdit:
@@ -150,6 +150,8 @@ begin
 end;
 
 procedure TfrmSongs.SelectSong(play: string);
+var
+  specialIndex: integer;
 begin
   SelectSong(allSongs.findIf(play, Strings.Equivalent));
 end;
@@ -198,11 +200,11 @@ begin
   dtpDuration.DateTime := 0;
 end;
 
-function TfrmSongs.CorrectInputs(checkExists:boolean): boolean;
+function TfrmSongs.CorrectInputs: boolean;
 begin
   if edtName.Text = '' then
     Error.QuickShow('Required Field Not Filled In!','Name is a required field!')
-  else if (checkExists) and (MDataBase.ContainsFields(dmDataBase.tblSongs,'name',edtName.Text)) then
+  else if MDataBase.ContainsFields(dmDataBase.tblSongs,'name',edtName.Text) then
     Error.QuickShow('Song already exists','a Song with name '+edtSearch.Text+' already exists')
   else if songLinker.OFile = '' then
     Error.QuickShow('Song Directory Not Selected','Music File is a required field!')

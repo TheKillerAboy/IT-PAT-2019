@@ -28,13 +28,9 @@ type
       FoundProc);overload;
       class procedure WriteFields(table:TADOTable;__found:FoundProc);
       class procedure EditFields(table:TADOTable;field:string;equal : Variant;__found:
-      FoundProc);overload;
-      class procedure EditFields(table:TADOTable;pfield:MPair<string,string>;pair : MPair<Variant,Variant>;__found:
-      FoundProc);overload;
-      class procedure RemoveFields(table:TADOTable;field:string;equal : Variant);overload;
-      class procedure RemoveFields(table:TADOTable;pfield:MPair<string,string>;pair : MPair<Variant,Variant>);overload;
-      class function ContainsFields(table:TADOTable;field:string;equal : Variant):boolean;overload;
-      class function ContainsFields(table:TADOTable;pfield:MPair<string,string>;pair : MPair<Variant,Variant>):boolean;overload;
+      FoundProc);
+      class procedure RemoveFields(table:TADOTable;field:string;equal : Variant);
+      class function ContainsFields(table:TADOTable;field:string;equal : Variant):boolean;
   end;
 
 var
@@ -91,53 +87,6 @@ begin
   result:=false;
 end;
 
-class function MDataBase.ContainsFields(table: TADOTable;
-  pfield: MPair<string, string>; pair: MPair<Variant, Variant>): boolean;
-begin
-  with table do
-  begin
-    Open;
-    First;
-    while not Eof do
-    begin
-      if (table.FieldByName(pfield.key).Value = pair.key)
-        and (table.FieldByName(pfield.value).Value = pair.value)then
-      begin
-        result:=true;
-        Exit;
-      end;
-      Next;
-    end;
-    Close;
-  end;
-  result:=false;
-end;
-
-class procedure MDataBase.EditFields(table: TADOTable;
-  pfield: MPair<string, string>; pair: MPair<Variant, Variant>;
-  __found: FoundProc);
-begin
-  with table do
-  begin
-    Open;
-    First;
-    while not Eof do
-    begin
-      if (table.FieldByName(pfield.key).Value = pair.key)
-        and (table.FieldByName(pfield.value).Value = pair.value)then
-      begin
-        Edit;
-        __found(Fields);
-        Post;
-        Close;
-        break;
-      end;
-      Next;
-    end;
-    Close;
-  end;
-end;
-
 class procedure MDataBase.EditFields(table: TADOTable; field: string;
   equal: Variant; __found: FoundProc);
 begin
@@ -172,37 +121,6 @@ begin
     while not Eof do
     begin
       result.append(table.FieldByName(field).Value);
-      Next;
-    end;
-    Close;
-  end;
-end;
-
-class procedure MDataBase.RemoveFields(table: TADOTable;
-  pfield: MPair<string, string>; pair: MPair<Variant, Variant>);
-var
-_found : boolean;
-begin
-  _found := false;
-  with table do
-  begin
-    Open;
-    First;
-    while not Eof do
-    begin
-      if not _found then
-      begin
-      if (table.FieldByName(pfield.key).Value = pair.key)
-        and (table.FieldByName(pfield.value).Value = pair.value)then
-        begin
-          Delete;
-          Edit;
-        end;
-      end
-      else
-      begin
-        table.FieldByName('id').AsInteger:=table.FieldByName('id').AsInteger-1;
-      end;
       Next;
     end;
     Close;

@@ -63,7 +63,7 @@ type
     procedure AnoSave(fields: TFields);
     procedure SavePlaylistsSongs;
     procedure Clear;
-    function CorrectInputs(checkExists:boolean):boolean;
+
   var
     epDescription: ExtendablePanel;
     allPlaylists: MArray<string>;
@@ -84,7 +84,7 @@ var
 
 implementation
 
-uses database_u, errors_u;
+uses database_u;
 {$R *.dfm}
 
 procedure TfrmPlaylists.AnoSave(fields: TFields);
@@ -115,28 +115,15 @@ begin
 end;
 
 procedure TfrmPlaylists.btnDeleteClick(Sender: TObject);
-var
-  pair : MPair<integer,string>;
-  apair : MPair<Variant,Variant>;
-  fpair : MPair<string,string>;
 begin
   if currentIndex <> -1 then
   begin
     MDataBase.RemoveFields(dmDataBase.tblPlaylists, 'name',
       lbxPlaylists.Items[currentIndex]);
-  apair := MPair<Variant,Variant>.Create(0,0);
-  fpair := MPair<string,string>.Create('playlist','song');
-  for pair in thisPlaylistsSongs.pairs.container do
-  begin
-    apair.key := pair.key;
-    apair.value := allSongs.findIf(pair.value, Strings.Equivalent);
-    MDataBase.RemoveFields(dmDataBase.tblPofS, fpair,
-      apair);
-  end;
-  Clear;
-  UpdateALLPlaylists;
-  UpdatePlaylistsLIST;
-  btnDelete.Enabled:=false;
+    Clear;
+    UpdateALLPlaylists;
+    UpdatePlaylistsLIST;
+    btnDelete.Enabled:=false;
   end;
 end;
 
@@ -163,27 +150,21 @@ end;
 procedure TfrmPlaylists.btnRemoveClick(Sender: TObject);
 var
   i: integer;
-  apair : MPair<Variant, Variant>;
 begin
   if lbxSongsinPlaylist.ItemIndex <> -1 then
   begin
-    apair := MPair<Variant, Variant>.Create(0,0);
-    apair.key := thisPlaylistsSongs.keys[lbxSongsinPlaylist.ItemIndex];
-    apair.value := allSongs.findIf(thisPlaylistsSongs.values[lbxSongsinPlaylist.ItemIndex], Strings.Equivalent);
-    MDataBase.RemoveFields(dmDataBase.tblPofS, MPair<string,string>.Create('playlist','song'),apair);
     thisPlaylistsSongs.delete(lbxSongsinPlaylist.ItemIndex);
+    for i := 0 to thisPlaylistsSongs.keys.len - 1 do
+      if thisPlaylistsSongs.keys[i] >= lbxSongsinPlaylist.ItemIndex then
+        thisPlaylistsSongs.keys[i] := thisPlaylistsSongs.keys[i] - 1;
+    MDataBase.RemoveFields(dmDataBase.tblPofS, 'id',
+      Variant(lbxSongsinPlaylist.ItemIndex));
     UpdateThisSongsLIST;
   end;
 end;
 
 procedure TfrmPlaylists.btnSaveClick(Sender: TObject);
-var
-pair : MPair<integer, string>;
-apair : MPair<Variant, Variant>;
-fpair : MPair<string,string>;
 begin
-  if not CorrectInputs(currentMode = smNew) then
-    Exit;
   case currentMode of
     smEdit:
       begin
@@ -197,22 +178,6 @@ begin
         UpdatePlaylistsLIST;
         lbxPlaylists.ItemIndex := lbxPlaylists.Count - 1;
       end;
-  end;
-  fpair := MPair<string,string>.Create('playlist','song');
-  apair := MPair<Variant, Variant>.Create(0,0);
-  for pair in thisPlaylistsSongs.pairs.container do
-  begin
-    apair.key := pair.key;
-    apair.value := allSongs.findIf(pair.value, Strings.Equivalent);
-    if not MDataBase.ContainsFields(dmDataBase.tblPofS, fpair, apair) then
-    begin
-        MDataBase.WriteFields(dmDataBase.tblPofS, procedure(fields:TFields)
-        begin
-           fields.FieldByName('playlist').Value := apair.key;
-           fields.FieldByName('song').Value := apair.value;
-           fields.FieldByName('id').AsInteger := dmDataBase.tblPofS.RecordCount;
-        end);
-    end;
   end;
 end;
 
@@ -230,21 +195,6 @@ begin
   imageLinker.OFile := '';
   epDescription.field.Text := '';
   createdDate := 0;
-end;
-
-function TfrmPlaylists.CorrectInputs(checkExists:boolean): boolean;
-begin
-  if edtName.Text = '' then
-    Error.QuickShow('Required Field Not Filled In!','Name is a required field!')
-  else if (checkExists) and (MDataBase.ContainsFields(dmDataBase.tblPlaylists,'name',edtName.Text)) then
-    Error.QuickShow('Playlist already exists','a Playlist with name '+edtSearch.Text+' already exists')
-  else if thisPlaylistsSongs.len = 0 then
-    Error.QuickShow('Playlist is Empty','Add some songs to the Playlist to save it')
-  else begin
-    result:=true;
-    Exit;
-  end;
-  result:=false;
 end;
 
 procedure TfrmPlaylists.Enabled(ena: boolean);
@@ -281,6 +231,8 @@ begin
 end;
 
 procedure TfrmPlaylists.SelectPlaylist(play: string);
+var
+  specialIndex: integer;
 begin
   SelectPlaylist(allPlaylists.findIf(play, Strings.Equivalent));
 end;
