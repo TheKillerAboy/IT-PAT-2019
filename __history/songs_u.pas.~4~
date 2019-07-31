@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, COMPONENTS, ComCtrls,database_u, ExtCtrls, StdCtrls, COMMONS, DB, pngimage,
+  Dialogs, COMPONENTS, ComCtrls, ExtCtrls, StdCtrls, COMMONS, DB, pngimage,
   jpeg;
 
 type
@@ -36,7 +36,7 @@ type
     pnlNav: TPanel;
     btnMusicPlayer: TButton;
     btnMainMenu: TButton;
-    btnPlaylists: TButton;
+    btnSongs: TButton;
     Label2: TLabel;
     dtpDuration: TDateTimePicker;
     procedure FormCreate(Sender: TObject);
@@ -47,9 +47,6 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnMainMenuClick(Sender: TObject);
-    procedure btnPlaylistsClick(Sender: TObject);
   private
     procedure UpdateSongsLIST;
     procedure UpdateALLSongs;
@@ -58,8 +55,7 @@ type
     procedure Enabled(ena: boolean);
     procedure Clear;
     function DialogsClick(name: string): TiggerComponentProc;
-    procedure AnoSave(fields: TFields; id:integer);
-    function AnoSaveProxy(id:integer): FoundProc;
+    procedure AnoSave(fields: TFields);
     function CorrectInputs(checkExists:boolean):boolean;
   var
     epDialogs: MDict<string, ExtendablePanel>;
@@ -78,10 +74,10 @@ var
 
 implementation
 
-uses errors_u, mainmenu_u, playlists_u;
+uses database_u,errors_u;
 {$R *.dfm}
 
-procedure TfrmSongs.AnoSave(fields: TFields;id: integer);
+procedure TfrmSongs.AnoSave(fields: TFields);
 begin
   fields.FieldByName('name').Value := edtName.Text;
   fields.FieldByName('description').Value := epDialogs['Description'].field.Text;
@@ -89,16 +85,9 @@ begin
   fields.FieldByName('lyrics').Value := epDialogs['Lyrics'].field.Text;
   fields.FieldByName('image').Value := imageLinker.OFile;
   fields.FieldByName('directory').Value := songLinker.OFile;
-  fields.FieldByName('id').Value := id;
+  fields.FieldByName('id').Value := lbxSongs.Count;
   fields.FieldByName('release date').AsDateTime := dtpDate.DateTime;
   fields.FieldByName('duration').AsDateTime := dtpDuration.DateTime;
-end;
-
-function TfrmSongs.AnoSaveProxy(id: integer): FoundProc;
-begin
- result:=procedure (fields:TFields) begin
-  AnoSave(fields,id);
- end;
 end;
 
 procedure TfrmSongs.btnDeleteClick(Sender: TObject);
@@ -126,12 +115,6 @@ begin
   end;
 end;
 
-procedure TfrmSongs.btnMainMenuClick(Sender: TObject);
-begin
-  frmMainMenu.Show;
-  Hide;
-end;
-
 procedure TfrmSongs.btnNewClick(Sender: TObject);
 begin
   Enabled(true);
@@ -149,31 +132,21 @@ begin
   case currentMode of
     smEdit:
       begin
-        MDataBase.EditFields(dmDataBase.tblSongs, 'id', currentIndex, AnoSaveProxy(currentIndex));
+        MDataBase.EditFields(dmDataBase.tblSongs, 'id', currentIndex, AnoSave);
       end;
     smNew:
       begin
-        MDataBase.WriteFields(dmDataBase.tblSongs, AnoSaveProxy(lbxSongs.Count));
+        MDataBase.WriteFields(dmDataBase.tblSongs, AnoSave);
         UpdateALLSongs;
         UpdateSongsLIST;
         lbxSongs.ItemIndex := lbxSongs.Count - 1;
       end;
   end;
-  btnSave.Enabled := false;
-  btnEdit.Enabled := true;
-  btnNew.Enabled := true;
-  Enabled(false);
 end;
 
 procedure TfrmSongs.btnSearchClick(Sender: TObject);
 begin
   SelectSong(edtSearch.Text);
-end;
-
-procedure TfrmSongs.btnPlaylistsClick(Sender: TObject);
-begin
-  frmPlaylists.Show;
-  Hide;
 end;
 
 procedure TfrmSongs.SelectSong(play: string);
@@ -275,11 +248,6 @@ begin
     epDialogs.values[i].Enabled(ena);
 end;
 
-procedure TfrmSongs.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  frmMainMenu.Show;
-end;
-
 procedure TfrmSongs.FormCreate(Sender: TObject);
 begin
   epDialogs := MDict<string, ExtendablePanel>.Create();
@@ -296,7 +264,7 @@ begin
   songLinker := LinkedButton.Extend(btnMusicFile, lbMusic, GetCurrentDir, nil);
 
   alwaysEnabled := MArray<TComponent>.create([edtSearch, btnSearch,
-    btnMusicPlayer, btnMainMenu, btnPlaylists, lbxSongs, btnEdit, pnlNav,
+    btnMusicPlayer, btnMainMenu, btnSongs, lbxSongs, btnEdit, pnlNav,
     pnlPlaylist, btnNew, btnDelete, lblSongs]);
 
   dtpDuration.DateTime := 0;

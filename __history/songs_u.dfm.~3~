@@ -11,7 +11,6 @@ object frmSongs: TfrmSongs
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -236,16 +235,14 @@ object frmSongs: TfrmSongs
       Height = 25
       Caption = 'Main Menu'
       TabOrder = 1
-      OnClick = btnMainMenuClick
     end
-    object btnPlaylists: TButton
+    object btnSongs: TButton
       Left = 95
       Top = 7
       Width = 75
       Height = 25
-      Caption = 'Playlists'
+      Caption = 'Songs'
       TabOrder = 2
-      OnClick = btnPlaylistsClick
     end
   end
 end

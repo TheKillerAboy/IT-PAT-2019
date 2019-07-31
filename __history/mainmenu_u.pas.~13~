@@ -36,7 +36,6 @@ uses settings_u, playlists_u, songs_u;
 procedure TfrmMainMenu.btnPlaylistsClick(Sender: TObject);
 begin
   frmPlaylists.Show;
-  HIde;
 end;
 
 procedure TfrmMainMenu.btnSettingsClick(Sender: TObject);

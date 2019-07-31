@@ -69,7 +69,6 @@ type
   Parser = class
     public
       class function parse(line,spliter:string):MArray<string>;
-      class function getExtention(sFilename:string):string;
   end;
 
 type
@@ -229,11 +228,6 @@ begin
 end;
 
 { Parser }
-
-class function Parser.getExtention(sFilename: string): string;
-begin
-  result:= Copy(sFilename,Pos('.',sFilename)+1,Length(sFilename));
-end;
 
 class function Parser.parse(line, spliter: string): MArray<string>;
 var

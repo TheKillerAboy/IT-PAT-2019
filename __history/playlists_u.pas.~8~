@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, ComCtrls, COMPONENTS, COMMONS, DB, pngimage,
-  jpeg, database_u;
+  jpeg;
 
 type
   SaveMode = (smEdit, smNew);
@@ -35,10 +35,10 @@ type
     img: TImage;
     btnEdit: TButton;
     btnNew: TButton;
+    btnMusicPlayer: TButton;
     btnMainMenu: TButton;
     btnSongs: TButton;
     btnDelete: TButton;
-    btnMusicPlayer: TButton;
     procedure FormCreate(Sender: TObject);
     procedure lbxPlaylistsClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -51,9 +51,6 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure btnMainMenuClick(Sender: TObject);
-    procedure btnSongsClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     procedure UpdatePlaylistsLIST;
     procedure UpdateSongsLIST;
@@ -63,8 +60,7 @@ type
     procedure SelectPlaylist(play: string); overload;
     procedure SelectPlaylist(index: integer); overload;
     procedure Enabled(ena: boolean);
-    procedure AnoSave(fields: TFields; id:integer);
-    function AnoSaveProxy(id:integer): FoundProc;
+    procedure AnoSave(fields: TFields);
     procedure SavePlaylistsSongs;
     procedure Clear;
     function CorrectInputs(checkExists:boolean):boolean;
@@ -88,27 +84,20 @@ var
 
 implementation
 
-uses errors_u, mainmenu_u, songs_u;
+uses database_u, errors_u;
 {$R *.dfm}
 
-procedure TfrmPlaylists.AnoSave(fields: TFields;id:integer);
+procedure TfrmPlaylists.AnoSave(fields: TFields);
 begin
   fields.FieldByName('name').Value := edtName.Text;
   fields.FieldByName('description').Value := epDescription.field.Text;
   fields.FieldByName('image').Value := imageLinker.OFile;
   fields.FieldByName('directory').Value := folderLinker.OFile;
-  fields.FieldByName('id').Value := id;
+  fields.FieldByName('id').Value := lbxPlaylists.Count;
   if createdDate = 0 then
     createdDate := Date;
   fields.FieldByName('created').AsDateTime := createdDate;
 
-end;
-
-function TfrmPlaylists.AnoSaveProxy(id: integer): FoundProc;
-begin
- result:=procedure (fields:TFields) begin
-  AnoSave(fields,id);
- end;
 end;
 
 procedure TfrmPlaylists.btnAddClick(Sender: TObject);
@@ -161,12 +150,6 @@ begin
   end;
 end;
 
-procedure TfrmPlaylists.btnMainMenuClick(Sender: TObject);
-begin
-  frmMainMenu.Show;
-  Hide;
-end;
-
 procedure TfrmPlaylists.btnNewClick(Sender: TObject);
 begin
   Enabled(true);
@@ -205,20 +188,16 @@ begin
     smEdit:
       begin
         MDataBase.EditFields(dmDataBase.tblPlaylists, 'id', currentIndex,
-          AnoSaveProxy(currentIndex));
+          AnoSave);
       end;
     smNew:
       begin
-        MDataBase.WriteFields(dmDataBase.tblPlaylists, AnoSaveProxy(lbxPlaylists.Count));
+        MDataBase.WriteFields(dmDataBase.tblPlaylists, AnoSave);
         UpdateALLPlaylists;
         UpdatePlaylistsLIST;
         lbxPlaylists.ItemIndex := lbxPlaylists.Count - 1;
       end;
   end;
-  btnSave.Enabled := false;
-  btnEdit.Enabled := true;
-  btnNew.Enabled := true;
-  Enabled(false);
   fpair := MPair<string,string>.Create('playlist','song');
   apair := MPair<Variant, Variant>.Create(0,0);
   for pair in thisPlaylistsSongs.pairs.container do
@@ -242,12 +221,6 @@ begin
   SelectPlaylist(edtSearch.Text)
 end;
 
-procedure TfrmPlaylists.btnSongsClick(Sender: TObject);
-begin
-  frmSongs.Show;
-  HIde;
-end;
-
 procedure TfrmPlaylists.Clear;
 begin
   edtName.Text := '';
@@ -257,7 +230,6 @@ begin
   imageLinker.OFile := '';
   epDescription.field.Text := '';
   createdDate := 0;
-  lbxSongsinPlaylist.Items.Clear;
 end;
 
 function TfrmPlaylists.CorrectInputs(checkExists:boolean): boolean;
@@ -283,11 +255,6 @@ begin
     if alwaysEnabled.find(COMPONENTS[i]) = -1 then
       TGraphicControl(COMPONENTS[i]).Enabled := ena;
   epDescription.Enabled(ena);
-end;
-
-procedure TfrmPlaylists.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  frmMainMenu.Show;
 end;
 
 procedure TfrmPlaylists.FormCreate(Sender: TObject);
@@ -389,6 +356,10 @@ begin
         .AsString <> '' then begin img.Picture.LoadFromFile
         (fields.FieldByName('image').AsString);
       imageLinker.OFile := fields.FieldByName('image').AsString; end;
+      if fields.FieldByName('directory')
+        .AsString <> '' then begin img.Picture.LoadFromFile
+        (fields.FieldByName('directory').AsString);
+      imageLinker.OFile := fields.FieldByName('directory').AsString; end;
       createdDate := fields.FieldByName('created').AsDateTime; end);
     thisPlaylistsSongs := MDict<integer, string>.create;
     MDataBase.UseFields(dmDataBase.tblPofS, 'playlist', index, false,

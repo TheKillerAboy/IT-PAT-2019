@@ -11,7 +11,6 @@ object frmPlaylists: TfrmPlaylists
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -61,14 +60,21 @@ object frmPlaylists: TfrmPlaylists
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 2
+    object btnMusicPlayer: TButton
+      Left = 656
+      Top = 7
+      Width = 114
+      Height = 25
+      Caption = 'Open in Music Player'
+      TabOrder = 0
+    end
     object btnMainMenu: TButton
       Left = 14
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Main Menu'
-      TabOrder = 0
-      OnClick = btnMainMenuClick
+      TabOrder = 1
     end
     object btnSongs: TButton
       Left = 95
@@ -76,15 +82,6 @@ object frmPlaylists: TfrmPlaylists
       Width = 75
       Height = 25
       Caption = 'Songs'
-      TabOrder = 1
-      OnClick = btnSongsClick
-    end
-    object btnMusicPlayer: TButton
-      Left = 656
-      Top = 7
-      Width = 114
-      Height = 25
-      Caption = 'Open in Music Player'
       TabOrder = 2
     end
   end
@@ -213,7 +210,7 @@ object frmPlaylists: TfrmPlaylists
     end
   end
   object lbxSongs: TListBox
-    Left = 552
+    Left = 551
     Top = 24
     Width = 234
     Height = 225

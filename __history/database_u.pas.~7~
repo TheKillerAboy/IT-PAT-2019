@@ -11,7 +11,6 @@ type
     tblSongs: TADOTable;
     tblPlaylists: TADOTable;
     tblPofS: TADOTable;
-    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -257,15 +256,6 @@ begin
     Post;
     Close;
   end;
-end;
-
-procedure TdmDataBase.DataModuleCreate(Sender: TObject);
-begin
-  conDataBase.ConnectionString := 'Provider=Microsoft.Jet.OLEDB.4.0;Data Source='+GetCurrentDir+'\PAT2019.mdb;Persist Security Info=False';
-  conDataBase.Connected := true;
-  tblSongs.Active := true;
-  tblPlaylists.Active := true;
-  tblPofS.Active := true;
 end;
 
 end.

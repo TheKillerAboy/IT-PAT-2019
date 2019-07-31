@@ -36,7 +36,6 @@ uses settings_u, playlists_u, songs_u;
 procedure TfrmMainMenu.btnPlaylistsClick(Sender: TObject);
 begin
   frmPlaylists.Show;
-  HIde;
 end;
 
 procedure TfrmMainMenu.btnSettingsClick(Sender: TObject);
@@ -53,15 +52,10 @@ procedure TfrmMainMenu.FormCreate(Sender: TObject);
 var
   sPath: string;
   obj: DictObject;
-  extentionArr : MArray<string>;
 begin
   slideshow := MArray<string>.Create();
-  extentionArr := MArray<string>.Create(['jpeg','jpg','png']);
   for sPath in TDirectory.GetFiles(GetCurrentDir + '\SlideShow') do
-  begin
-    if(extentionArr.find(LOWERCASE(Parser.getExtention(sPath))) <> -1)then
-      slideshow.append(sPath);
-  end;
+    slideshow.append(sPath);
   tmrSlideShowTimer(nil);
 end;
 
