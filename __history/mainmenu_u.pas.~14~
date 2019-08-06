@@ -14,13 +14,11 @@ type
     btnPlaylists: TButton;
     btnSongs: TButton;
     btnSettings: TButton;
-    btnHelp: TButton;
     procedure FormCreate(Sender: TObject);
     procedure tmrSlideShowTimer(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
     procedure btnPlaylistsClick(Sender: TObject);
     procedure btnSongsClick(Sender: TObject);
-    procedure btnHelpClick(Sender: TObject);
   private
     slideshow: MArray<string>;
   public
@@ -32,14 +30,8 @@ var
 
 implementation
 
-uses settings_u, playlists_u, songs_u, help_u;
+uses settings_u, playlists_u, songs_u;
 {$R *.dfm}
-
-procedure TfrmMainMenu.btnHelpClick(Sender: TObject);
-begin
-  frmHelp.SHow;
-  hide;
-end;
 
 procedure TfrmMainMenu.btnPlaylistsClick(Sender: TObject);
 begin

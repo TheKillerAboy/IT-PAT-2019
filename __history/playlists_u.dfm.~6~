@@ -79,6 +79,14 @@ object frmPlaylists: TfrmPlaylists
       TabOrder = 1
       OnClick = btnSongsClick
     end
+    object btnMusicPlayer: TButton
+      Left = 656
+      Top = 7
+      Width = 114
+      Height = 25
+      Caption = 'Open in Music Player'
+      TabOrder = 2
+    end
   end
   object pnlPlaylist: TPanel
     Left = 8
@@ -206,7 +214,7 @@ object frmPlaylists: TfrmPlaylists
   end
   object lbxSongs: TListBox
     Left = 552
-    Top = 8
+    Top = 24
     Width = 234
     Height = 225
     ItemHeight = 13

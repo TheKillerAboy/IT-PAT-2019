@@ -82,7 +82,6 @@ object frmHelp: TfrmHelp
       Height = 25
       Caption = 'Main Menu'
       TabOrder = 0
-      OnClick = btnMainMainClick
     end
   end
 end

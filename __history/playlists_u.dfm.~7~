@@ -206,7 +206,7 @@ object frmPlaylists: TfrmPlaylists
   end
   object lbxSongs: TListBox
     Left = 552
-    Top = 8
+    Top = 24
     Width = 234
     Height = 225
     ItemHeight = 13

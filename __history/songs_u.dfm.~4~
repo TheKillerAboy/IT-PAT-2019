@@ -221,13 +221,21 @@ object frmSongs: TfrmSongs
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 8
+    object btnMusicPlayer: TButton
+      Left = 626
+      Top = 7
+      Width = 114
+      Height = 25
+      Caption = 'Open in Music Player'
+      TabOrder = 0
+    end
     object btnMainMenu: TButton
       Left = 14
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Main Menu'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = btnMainMenuClick
     end
     object btnPlaylists: TButton
@@ -236,7 +244,7 @@ object frmSongs: TfrmSongs
       Width = 75
       Height = 25
       Caption = 'Playlists'
-      TabOrder = 1
+      TabOrder = 2
       OnClick = btnPlaylistsClick
     end
   end

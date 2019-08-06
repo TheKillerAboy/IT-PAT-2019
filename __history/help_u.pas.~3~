@@ -20,7 +20,6 @@ type
     procedure btnSearchClick(Sender: TObject);
     procedure tvwHelpChange(Sender: TObject; Node: TTreeNode);
     procedure FormShow(Sender: TObject);
-    procedure btnMainMainClick(Sender: TObject);
   private
     procedure Search(relevant:string);
     procedure AddToTree(Current : MArray<DictObject>; Parent : TTreeNode);
@@ -37,7 +36,6 @@ var
 
 implementation
 
-uses mainmenu_u;
 {$R *.dfm}
 
 procedure TfrmHelp.AddToTree(Current: MArray<DictObject>; Parent : TTreeNode);
@@ -58,16 +56,8 @@ begin
   end;
 end;
 
-procedure TfrmHelp.btnMainMainClick(Sender: TObject);
-begin
-  frmMainMenu.SHow;
-  Hide;
-end;
-
 procedure TfrmHelp.btnSearchClick(Sender: TObject);
 begin
-  if edtSearch.Text <> '' then
-
   Search(edtSearch.Text);
 end;
 

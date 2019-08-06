@@ -34,6 +34,7 @@ type
     btnNew: TButton;
     btnDelete: TButton;
     pnlNav: TPanel;
+    btnMusicPlayer: TButton;
     btnMainMenu: TButton;
     btnPlaylists: TButton;
     Label2: TLabel;
@@ -295,7 +296,7 @@ begin
   songLinker := LinkedButton.Extend(btnMusicFile, lbMusic, GetCurrentDir, nil);
 
   alwaysEnabled := MArray<TComponent>.create([edtSearch, btnSearch,
-     btnMainMenu, btnPlaylists, lbxSongs, btnEdit, pnlNav,
+    btnMusicPlayer, btnMainMenu, btnPlaylists, lbxSongs, btnEdit, pnlNav,
     pnlPlaylist, btnNew, btnDelete, lblSongs]);
 
   dtpDuration.DateTime := 0;

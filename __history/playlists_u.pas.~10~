@@ -38,6 +38,7 @@ type
     btnMainMenu: TButton;
     btnSongs: TButton;
     btnDelete: TButton;
+    btnMusicPlayer: TButton;
     procedure FormCreate(Sender: TObject);
     procedure lbxPlaylistsClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -295,8 +296,8 @@ begin
     procedure begin img.Picture.LoadFromFile(imageLinker.OFile); end);
   folderLinker := LinkedButton.Extend(btnFolder, lbFolder, GetCurrentDir, nil);
 
-  alwaysEnabled := MArray<TComponent>.create([edtSearch, btnSearch
-  , btnMainMenu, btnSongs, lbxPlaylists, btnEdit, pnlNav,
+  alwaysEnabled := MArray<TComponent>.create([edtSearch, btnSearch,
+    btnMusicPlayer, btnMainMenu, btnSongs, lbxPlaylists, btnEdit, pnlNav,
     pnlPlaylist, btnAdd, btnRemove, btnNew, btnDelete, lblPlaylists]);
 
   epDescription := ExtendablePanel.Extend(pnlDescription, 'Description');

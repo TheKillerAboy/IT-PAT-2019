@@ -58,15 +58,6 @@ object frmMainMenu: TfrmMainMenu
       TabOrder = 2
       OnClick = btnSettingsClick
     end
-    object btnHelp: TButton
-      Left = 8
-      Top = 8
-      Width = 75
-      Height = 25
-      Caption = 'Help'
-      TabOrder = 3
-      OnClick = btnHelpClick
-    end
   end
   object tmrSlideShow: TTimer
     Interval = 2000
